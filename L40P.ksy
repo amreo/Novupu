@@ -37,9 +37,27 @@ types:
         type: 
           switch-on: type
           cases:
+            0x014B: iccid_info
             _: unknown_type
         size: _parent.length-4
   unknown_type:
     seq:
       - id: data
         size-eos: true
+  iccid_info:
+    seq:
+      - id: time_delta_milliseconds
+        type: u4
+        doc: I suspect this field contains the number of milliseconds passed since something something  
+      - id: magic0
+        contents: [0x00, 0x00]
+        doc: I suspect this magic0 and unknown1 is a u4 number
+      - id: unknown1
+        type: u2
+        doc: It seem to be a incremental number
+      - id: iccid
+        type: str
+        size: 21
+        doc: ICCID number
+      - id: magic1
+        contents: [0x00, 0x00, 0x00, 0x00]
