@@ -23,6 +23,7 @@ seq:
   - id: payload
     type: payload
     doc: The payload
+    size: length
     if: length > 0 
 types:
   payload:
@@ -37,6 +38,7 @@ types:
         type: 
           switch-on: type
           cases:
+            0x0002: dev_info
             0x014B: iccid_info
             _: unknown_type
         size: _parent.length-4
@@ -61,3 +63,58 @@ types:
         doc: ICCID number
       - id: magic1
         contents: [0x00, 0x00, 0x00, 0x00]
+  dev_info:
+    seq:
+      - id: time_delta_milliseconds
+        type: u4
+        doc: I suspect this field contains the number of milliseconds passed since something something  
+      - id: magic0
+        contents: [0x00, 0x00]
+      - id: unknown0
+        type: u2
+        doc: This is a sequential number!
+      - id: magic1
+        contents: [0x00]
+      - id: version
+        type: u1
+        repeat: expr
+        repeat-expr: 4
+        doc: It should contain the version of the firmware
+      - id: magic2
+        contents: [0x00, 0x00, 0x00, 0x7a, 0xbe, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00]
+      - id: entries_length
+        type: u2
+        doc: The length of all entries
+      - id: entries
+        type: dev_info_entries
+        size: entries_length
+      - id: magic3
+        contents: [0x00, 0x00, 0x00, 0x00]
+  dev_info_entries:
+    seq:
+      - id: entries
+        type: dev_info_entry
+        repeat: eos
+  dev_info_entry: 
+    seq: 
+      - id: magic0
+        contents: [0x80, 0x01]
+      - id: entry_type
+        type: u2
+        enum: dev_info_entry_type
+        doc: The type of the entry
+      - id: info_length
+        type: u2
+        doc: The length of the informations
+      - id: info
+        type: u1
+        repeat: expr
+        repeat-expr: info_length
+    enums:
+      dev_info_entry_type:
+        0x10: unknown0
+        0x5: unknown1
+        0x12: vendor
+        0x16: serial_number
+        0x4: family
+        0x11: model
