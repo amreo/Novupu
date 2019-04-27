@@ -6,6 +6,7 @@ meta:
   endian: be
 doc: |
   I think L10P is a protocol used to acknowledge L40P requests.
+  A L10P pdu is L40P pdu wih zero length payload
 seq:
   - id: seq
     type: u2
