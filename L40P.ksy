@@ -39,8 +39,12 @@ types:
           switch-on: type
           cases:
             0x0002: dev_info
-            0x010D: apn_info 
+            0x010D: apn_info
+            0x010F: data_link_connection_info 
+            0x0133: ping_info
+            0x0136: ping2_info  
             0x014B: iccid_info
+            0x0187: data_link_status
             _: unknown_type
         size: _parent.length-4
   unknown_type:
@@ -146,4 +150,100 @@ types:
           0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 
           0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x01, 0x00, 0x00] 
       - id: magic3
+        contents: [0x00, 0x00, 0x00, 0x00]
+  data_link_connection_info:
+    seq: 
+      - id: time_delta_milliseconds
+        type: u4
+        doc: I suspect this field contains the number of milliseconds passed since something something  
+      - id: magic0
+        contents: [0x00, 0x00]
+      - id: unknown0
+        type: u2
+        doc: This is a sequential number!
+      - id: magic1
+        contents: [0x00, 0x00, 0x00, 0x01, 0x00, 0x00, 0x00, 0x01, 0x04, 0x11, 0x00]
+      - id: id_e_node_b
+        type: u2
+        doc: ID eNodeB
+      - id: cell_id
+        type: u1
+      - id: magic2
+        contents: [0x00, 0x00, 0x00, 0x00]
+      - id: network_code
+        type: strz
+        doc: MCC+MNC
+      - id: magic3
+        contents: [0x00, 0x00, 0x00, 0x00, 0x00, 0x7b, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+          0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+          0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+          0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+          0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x01, 0x00, 0x2a, 0x00, 0xb8, 0xff, 0xff]
+      - id: unknown1
+        type: u2
+        doc: This field seems to have a oscillating value, like link intensity o quality
+      - id: magic4
+        contents: [0xff, 0xff]
+        doc: I suspect this field is part of the next field
+      - id: unknown2
+        type: u2
+        doc: This field seems to have a oscillating value, like link intensity o quality
+      - id: magic5
+        contents: [0x00, 0x00, 0x00, 0x00]
+  ping_info: 
+    seq: 
+      - id: time_delta_milliseconds
+        type: u4
+        doc: I suspect this field contains the number of milliseconds passed since something something  
+      - id: magic0
+        contents: [0x00, 0x00]
+      - id: unknown0
+        type: u2
+        doc: This is a sequential number!
+      - id: magic1
+        contents: [0x00, 0x00, 0x00, 0x01, 0x00, 0x00, 0x00, 0x00]
+  ping2_info: 
+    seq: 
+      - id: time_delta_milliseconds
+        type: u4
+        doc: I suspect this field contains the number of milliseconds passed since something something  
+      - id: magic0
+        contents: [0x00, 0x00]
+      - id: unknown0
+        type: u2
+        doc: This is a sequential number!
+      - id: magic1
+        contents: [0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00]
+  data_link_status:
+    seq: 
+      - id: time_delta_milliseconds
+        type: u4
+        doc: I suspect this field contains the number of milliseconds passed since something something  
+      - id: magic0
+        contents: [0x00, 0x00]
+      - id: unknown0
+        type: u2
+        doc: This is a sequential number!
+      - id: magic1
+        contents: [0x00, 0x00]
+      - id: unknown1
+        type: u2
+        doc: It seem to be a oscillating value!
+      - id: unknown2
+        type: s4
+        doc: It seem to be a oscillating value!
+      - id: magic2
+        contents: [0x00, 0x00]
+      - id: unknown3
+        type: u2
+        doc: It seem to be a oscillating value!
+      - id: magic3
+        contents: [0x00, 0x00]
+      - id: unknown4
+        type: u2
+        doc: It seem to be a oscillating value!
+      - id: unknown5
+        type: u2
+        doc: It seem to be a oscillating value!
+      - id: magic4
         contents: [0x00, 0x00, 0x00, 0x00]
