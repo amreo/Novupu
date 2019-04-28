@@ -39,12 +39,13 @@ types:
           switch-on: type
           cases:
             0x0002: dev_info
+            0x00F4: network_status_info
             0x010D: apn_info
             0x010F: data_link_connection_info 
             0x0133: ping_info
             0x0136: ping2_info  
             0x014B: iccid_info
-            0x0187: data_link_status
+            0x0187: data_link_status_info
             _: unknown_type
         size: _parent.length-4
   unknown_type:
@@ -138,9 +139,9 @@ types:
       - id: apn
         type: strz
         doc: The apn url of the apn
-      - id: unknown1
-        type: u4
-        doc: Another (delta)time field?
+      - id: ipv4
+        size: 4
+        doc: (Current?) Ip address
       - id: magic2
         contents: [0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
           0x00, 0x00, 0x4f, 0xab, 0xa0, 0x14, 0x4f, 0xab, 0xa4, 0x14, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
@@ -214,7 +215,7 @@ types:
         doc: This is a sequential number!
       - id: magic1
         contents: [0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00]
-  data_link_status:
+  data_link_status_info:
     seq: 
       - id: time_delta_milliseconds
         type: u4
@@ -245,5 +246,28 @@ types:
       - id: unknown5
         type: u2
         doc: It seem to be a oscillating value!
+      - id: magic4
+        contents: [0x00, 0x00, 0x00, 0x00]
+  network_status_info: 
+    seq: 
+      - id: time_delta_milliseconds
+        type: u4
+        doc: I suspect this field contains the number of milliseconds passed since something something  
+      - id: magic0
+        contents: [0x00, 0x00]
+      - id: unknown0
+        type: u2
+        doc: This is a sequential number!
+      - id: magic1
+        contents: [0x00, 0x00]
+      - id: magic2
+        contents: [0x00, 0x00, 0x00, 0x00, 0x00, 0x01, 0x00, 0x00, 0x00, 0x01]
+      - id: ipv4_address
+        size: 4
+        doc: ipv4_address of the device
+      - id: magic3
+        contents: [0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+          0x00, 0x00, 0x00, 0x01, 0x00, 0x00, 0x00, 0x01, 0x00, 0x00, 0x00, 0x02,
+          0x00, 0x00, 0x00, 0x02] 
       - id: magic4
         contents: [0x00, 0x00, 0x00, 0x00]
