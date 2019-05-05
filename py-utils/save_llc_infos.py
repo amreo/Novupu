@@ -10,6 +10,6 @@ if dest_dir.endswith("/"):
 data = json.load(sys.stdin)
 
 for item in data:
-    file = open(dest_dir + "/" + item["id"] + ".bin", "wb")
+    file = open(dest_dir + "/" + str(item["id"]) + ".bin", "wb")
     file.write(bytes.fromhex(item["data"]))
     file.close()
