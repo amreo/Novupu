@@ -4,6 +4,9 @@ filter_by_layer("eth")
 | filter_by_layer("llc")
 | only_layers
 | map({
+    id: .frame.number,
+    time: .frame.time,
+    time_epoch: .frame.time_epoch,  
     src: .eth.src,
     dst: .eth.dst,
     ssap: .llc.ssap | .[2:],
