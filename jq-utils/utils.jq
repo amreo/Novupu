@@ -14,6 +14,14 @@ def only_layer($layer_name):
     map(._source.layers | .[$layer_name]);
 def filter_by_layer($layer_name):
     map(select(._source.layers | has($layer_name)));
+def filter_llc_info_by_ids($ids):
+    if ($ids | type) == "number" then
+      map(select(.id == $ids))
+    elif ($ids | type) == "array" then
+      map(select(.id as $id | $ids | contains([$id])))
+    else
+      .
+    end;
 
 
 # Copied from https://rosettacode.org/wiki/Non-decimal_radices/Convert#jq
@@ -43,3 +51,4 @@ def to_i(base):
 def remove_colons:
     split(":")
     | join("");
+
