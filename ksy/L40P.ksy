@@ -34,7 +34,10 @@ types:
       - id: type
         type: u2
         doc: The type of information (or command?)
-      - id: informations
+      - id: question
+        if: _parent.length-4 == 8
+        type: question
+      - id: answer
         type: 
           switch-on: type
           cases:
@@ -45,13 +48,25 @@ types:
             0x0133: ping_info
             0x0136: ping2_info  
             0x014B: iccid_info
+            0x0175: unknown_answer_type0
             0x0187: data_link_status_info
             _: unknown_type
         size: _parent.length-4
+        if: _parent.length-4 > 8
   unknown_type:
     seq:
       - id: data
         size-eos: true
+  question:
+    seq:
+      - id: time0
+        type: u4
+        doc: I suspect this field contains the number of milliseconds passed since something something, but it doesn't seem regular...
+      - id: magic0
+        contents: [0x00, 0x00]
+      - id: question_id
+        type: u2
+        doc: The id of the questions
   iccid_info:
     seq:
       - id: time_delta_milliseconds
@@ -60,9 +75,9 @@ types:
       - id: magic0
         contents: [0x00, 0x00]
         doc: I suspect this magic0 and unknown1 is a u4 number
-      - id: unknown1
+      - id: question_id
         type: u2
-        doc: It seem to be a incremental number
+        doc: The question being answered
       - id: iccid
         type: str
         size: 21
@@ -76,9 +91,9 @@ types:
         doc: I suspect this field contains the number of milliseconds passed since something something  
       - id: magic0
         contents: [0x00, 0x00]
-      - id: unknown0
+      - id: question_id
         type: u2
-        doc: This is a sequential number!
+        doc: The question being answered
       - id: magic1
         contents: [0x00]
       - id: version
@@ -131,9 +146,9 @@ types:
         doc: I suspect this field contains the number of milliseconds passed since something something  
       - id: magic0
         contents: [0x00, 0x00]
-      - id: unknown0
+      - id: question_id
         type: u2
-        doc: This is a sequential number!
+        doc: The question being answered
       - id: magic1
         contents: [0x00, 0x00, 0x00, 0x01]
       - id: apn
@@ -159,9 +174,9 @@ types:
         doc: I suspect this field contains the number of milliseconds passed since something something  
       - id: magic0
         contents: [0x00, 0x00]
-      - id: unknown0
+      - id: question_id
         type: u2
-        doc: This is a sequential number!
+        doc: The question being answered
       - id: magic1
         contents: [0x00, 0x00, 0x00, 0x01, 0x00, 0x00, 0x00, 0x01, 0x04, 0x11, 0x00]
       - id: id_e_node_b
@@ -198,9 +213,9 @@ types:
         doc: I suspect this field contains the number of milliseconds passed since something something  
       - id: magic0
         contents: [0x00, 0x00]
-      - id: unknown0
+      - id: question_id
         type: u2
-        doc: This is a sequential number!
+        doc: The question being answered
       - id: magic1
         contents: [0x00, 0x00, 0x00, 0x01, 0x00, 0x00, 0x00, 0x00]
   ping2_info: 
@@ -210,9 +225,9 @@ types:
         doc: I suspect this field contains the number of milliseconds passed since something something  
       - id: magic0
         contents: [0x00, 0x00]
-      - id: unknown0
+      - id: question_id
         type: u2
-        doc: This is a sequential number!
+        doc: The question being answered
       - id: magic1
         contents: [0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00]
   data_link_status_info:
@@ -222,9 +237,9 @@ types:
         doc: I suspect this field contains the number of milliseconds passed since something something  
       - id: magic0
         contents: [0x00, 0x00]
-      - id: unknown0
+      - id: question_id
         type: u2
-        doc: This is a sequential number!
+        doc: The question being answered
       - id: magic1
         contents: [0x00, 0x00]
       - id: unknown1
@@ -255,9 +270,9 @@ types:
         doc: I suspect this field contains the number of milliseconds passed since something something  
       - id: magic0
         contents: [0x00, 0x00]
-      - id: unknown0
+      - id: question_id
         type: u2
-        doc: This is a sequential number!
+        doc: The question being answered
       - id: magic1
         contents: [0x00, 0x00]
       - id: magic2
@@ -270,4 +285,36 @@ types:
           0x00, 0x00, 0x00, 0x01, 0x00, 0x00, 0x00, 0x01, 0x00, 0x00, 0x00, 0x02,
           0x00, 0x00, 0x00, 0x02] 
       - id: magic4
+        contents: [0x00, 0x00, 0x00, 0x00]
+  unknown_answer_type0:
+    seq:
+      - id: time_delta_milliseconds
+        type: u4
+        doc: I suspect this field contains the number of milliseconds passed since something something  
+      - id: magic0
+        contents: [0x00, 0x00]
+      - id: question_id
+        type: u2
+        doc: The question being answered
+      - id: magic1
+        contents: [0x00, 0x00]
+      - id: magic2
+        contents: [0x00, 0x02, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x03, 
+          0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0x00, 0x00, 
+          0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+          0x00, 0x02, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 
+          0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00]
+      - id: unknown0
+        type: u2 
+      - id: magic3
+        contents: [0x00, 0x00]
+      - id: unknown1
+        type: u2
+      - id: magic4
+        contents: [0x00, 0x00, 0x00, 0x0b, 0x00, 0x00] 
+      - id: unknown2
+        type: u2
+      - id: magic5
+        contents: [0x00, 0x00, 0x00, 0x00]
+      - id: magic6
         contents: [0x00, 0x00, 0x00, 0x00]

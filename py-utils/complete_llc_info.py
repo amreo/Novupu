@@ -3,21 +3,30 @@ import sys, json
 import tempfile
 import subprocess
 import time
+from l40p import L40p
+from enum import Enum
+
+
+def serialize(obj):
+    if isinstance(obj, bytes):
+        return obj.hex()
+    asDict = obj.__dict__
+    if isinstance(obj, Enum):
+        return obj.name
+    asDict.pop("_root", 0)
+    asDict.pop("_parent",0)
+    asDict.pop("_io", 0)
+    asDict["kstype"]=obj.__class__.__name__
+    return asDict
 
 data = json.load(sys.stdin)
 for item in data:
     print ("ID:", item["id"], file=sys.stderr)
-    with tempfile.NamedTemporaryFile() as temp: 
-        print("    TMP:", temp.name, file=sys.stderr)
-        temp.write(bytes.fromhex(item["data"]))
-        temp.flush()
-        
-        ksdump = subprocess.run(["ksdump", "--format", "json", temp.name, "ksy/L40P.ksy"], capture_output=True)
-        if ksdump.returncode == 0:
-            item["parsed_data"] = json.loads(ksdump.stdout.decode())
-        else:
-            json.dump(item, sys.stderr)
-            print("    STDERR:", ksdump.stderr.decode(), file=sys.stderr)
-            item["parsed_data"] = "ERROR!"
-        
-json.dump(data, sys.stdout)
+    try:
+        parsedData = L40p.from_bytes(bytes.fromhex(item["data"]))
+        item["parsed_data"] = parsedData
+    except Exception as e:
+        item["parsed_data"] = "ERROR!"
+        print("    STDERR:", e, file=sys.stderr)
+
+json.dump(data, sys.stdout, default=serialize)
