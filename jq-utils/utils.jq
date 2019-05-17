@@ -22,7 +22,8 @@ def filter_llc_info_by_ids($ids):
     else
       .
     end;
-
+def filter_llc_info_by_unknown_answer_type:
+    map(select(.parsed_data.payload | has("answer")) | select(.parsed_data.payload.answer.kstype=="UnknownType"));
 
 # Copied from https://rosettacode.org/wiki/Non-decimal_radices/Convert#jq
 # Convert the input integer to a string in the specified base (2 to 36 inclusive)
