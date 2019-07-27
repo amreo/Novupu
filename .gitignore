@@ -106,3 +106,4 @@ venv.bak/
 #specific projects file
 data/
 py-utils/l40p.py
+save_out/

@@ -50,6 +50,7 @@ types:
             0x014B: iccid_info
             0x0151: unknown_answer_type1
             0x0175: unknown_answer_type0
+            0x186:  data_link_status_info2
             0x0187: data_link_status_info
             _: unknown_type
         size: _parent.length-4
@@ -404,4 +405,100 @@ types:
       - id: unknown14
         type: u2
       - id: magic12
+        contents: [0x00, 0x00, 0x00, 0x00]
+  data_link_status_info2:
+    seq:
+      - id: time_delta_milliseconds
+        type: u4
+        doc: I suspect this field contains the number of milliseconds passed since something something  
+      - id: magic0
+        contents: [0x00, 0x00]
+      - id: question_id
+        type: u2
+        doc: The question being answered
+      - id: unknown0
+        type: s4
+        doc: It seem to be a oscillating value!
+      - id: unknown1
+        type: s4
+        doc: It seem to be a oscillating value!
+      - id: unknown2
+        type: s4
+        doc: It seem to be a oscillating value!
+      - id: magic1
+        contents: [0x00, 0x00]
+      - id: unknown3
+        type: u2
+        doc: It seem to be a oscillating value!
+      - id: magic2
+        contents: [0x00, 0x00]
+      - id: unknown4
+        type: u2
+        doc: It seem to be a oscillating value!
+      - id: unknown5
+        type: s4
+        doc: It seem to be a oscillating value!
+      - id: unknown6
+        type: s4
+        doc: It seem to be a oscillating value!
+      - id: unknown7
+        type: s4
+        doc: It seem to be a oscillating value!
+      - id: unknown8
+        type: s4
+        doc: It seem to be a oscillating value!
+      - id: unknown9
+        type: s4
+        doc: It seem to be a oscillating value!
+      - id: unknown10
+        type: s4
+        doc: It seem to be a oscillating value!
+      - id: magic3
+        contents: [0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00]
+      - id: magic4
+        contents: [0x00, 0x00]
+      - id: unknown11
+        type: u2
+        doc: It seem to be a oscillating value!
+      - id: magic5
+        contents: [0x00, 0x00]
+      - id: unknown16
+        type: u2
+        doc: It seem to be a oscillating value!
+      - id: unknown17
+        type: u1
+        doc: It seem to be a oscillating value!
+      - id: magic6
+        contents: [0x09]
+      - id: unknown18
+        type: u1
+        doc: It seem to be a oscillating value!
+      - id: magic7
+        contents: [0x00]
+      - id: magic8
+        contents: [0x00, 0x00]
+      - id: unknown19
+        type: u2
+        doc: It seem to be a oscillating value!
+      - id: magic9
+        contents: [0x00, 0x00]
+      - id: unknown20
+        type: u2
+        doc: It seem to be a oscillating value!
+      - id: magic10
+        contents: [0x00, 0x00]
+      - id: unknown21
+        type: u2
+        doc: It seem to be a oscillating value!
+      - id: magic11
+        contents: [0x00, 0x00]
+      - id: unknown22
+        type: u2
+        doc: It seem to be a oscillating value!
+      - id: magic12
+        contents: [0x00, 0x00]
+      - id: unknown23
+        type: u2
+        doc: It seem to be a oscillating value!
+      - id: magic13
         contents: [0x00, 0x00, 0x00, 0x00]
