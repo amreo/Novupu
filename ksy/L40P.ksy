@@ -48,6 +48,7 @@ types:
             0x010D: apn_info
             0x010F: data_link_connection_info 
             0x0133: ping_info
+            0x0134: unknown_answer_type4
             0x0136: ping2_info  
             0x014B: iccid_info
             0x0151: unknown_answer_type1
@@ -562,3 +563,20 @@ types:
           0x00, 0xC6, 0x88, 0x3D, 0x5D]
       - id: magic3
         contents: [0x00, 0x00, 0x00, 0x00]
+  unknown_answer_type4:
+    seq:
+      - id: time_delta_milliseconds
+        type: u4
+        doc: I suspect this field contains the number of milliseconds passed since something something  
+      - id: magic0
+        contents: [0x00, 0x00]
+      - id: question_id
+        type: u2
+        doc: The question being answered
+      - id: magic1
+        contents: [0x00, 0x00]
+      - id: magic2
+        contents: [0x00, 0x06, 0x03]
+      - id: magic3
+        contents: [0x00, 0x00, 0x00, 0x00]
+
