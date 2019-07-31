@@ -42,6 +42,7 @@ types:
           switch-on: type
           cases:
             0x0002: dev_info
+            0x00DD: unknown_answer_type2
             0x00F4: network_status_info
             0x010D: apn_info
             0x010F: data_link_connection_info 
@@ -50,7 +51,7 @@ types:
             0x014B: iccid_info
             0x0151: unknown_answer_type1
             0x0175: unknown_answer_type0
-            0x186:  data_link_status_info2
+            0x0186: data_link_status_info2
             0x0187: data_link_status_info
             _: unknown_type
         size: _parent.length-4
@@ -301,44 +302,63 @@ types:
       - id: magic1
         contents: [0x00, 0x00]
       - id: magic2
-        contents: [0x00, 0x02, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00]
+        contents: [0x00, 0x02, 0x00, 0x00, 0x00, 0x00]
       - id: unknown0
         type: u1
-      - id: unknown1
-        type: u1 
       - id: magic3
-        contents: [0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0x00, 0x00, 
-          0x00, 0x00, 0x00, 0x00, 0x00, 0x00]
-      - id: unknown2
+        contents: [0x00, 0x00, 0x00]
+      - id: unknown1
         type: u1
+      - id: unknown2
+        type: u1 
       - id: magic4
-        contents: [0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00]
+        contents: [0x00, 0x00, 0x00]
       - id: unknown3
         type: u1
       - id: magic5
-        contents: [0x02, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 
-          0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00]
+        contents: [0x00, 0x00, 0x00, 0x00, 0x00,  0x00, 0x00, 0x02]
       - id: unknown4
         type: u1
       - id: magic6
-        contents: [0x00, 0x00]
+        contents: [0x00, 0x00, 0x00]
       - id: unknown5
-        type: u2 
+        type: u1
+      - id: unknown6
+        type: u1
       - id: magic7
         contents: [0x00, 0x00]
-      - id: unknown6
-        type: u2
-      - id: magic8
-        contents: [0x00, 0x00] 
       - id: unknown7
-        type: u2
-      - id: magic9
-        contents: [0x00, 0x00] 
+        type: u1
+      - id: magic8
+        contents: [0x00, 0x00, 0x00]
       - id: unknown8
-        type: u2
+        type: u1
+      - id: unknown9
+        type: u1
+      - id: magic9
+        contents: [0x02, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 
+          0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00]
+      - id: unknown10
+        type: u1
       - id: magic10
-        contents: [0x00, 0x00, 0x00, 0x00]
+        contents: [0x00, 0x00]
+      - id: unknown11
+        type: u2 
       - id: magic11
+        contents: [0x00, 0x00]
+      - id: unknown12
+        type: u2
+      - id: magic12
+        contents: [0x00, 0x00] 
+      - id: unknown13
+        type: u2
+      - id: magic13
+        contents: [0x00, 0x00] 
+      - id: unknown14
+        type: u2
+      - id: magic14
+        contents: [0x00, 0x00, 0x00, 0x00]
+      - id: magic15
         contents: [0x00, 0x00, 0x00, 0x00]
   unknown_answer_type1:
     seq:
@@ -454,51 +474,71 @@ types:
         type: s4
         doc: It seem to be a oscillating value!
       - id: magic3
-        contents: [0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00]
+        contents: [0x00, 0x00, 0x00, 0x00, 0x00, 0x00]
+      - id: unknown11
+        type: u2
+        doc: It seem to 0x00 or 0x81
       - id: magic4
         contents: [0x00, 0x00]
-      - id: unknown11
+      - id: unknown12
         type: u2
         doc: It seem to be a oscillating value!
       - id: magic5
         contents: [0x00, 0x00]
-      - id: unknown16
+      - id: unknown13
         type: u2
         doc: It seem to be a oscillating value!
-      - id: unknown17
+      - id: unknown14
         type: u1
         doc: It seem to be a oscillating value!
       - id: magic6
         contents: [0x09]
-      - id: unknown18
+      - id: unknown15
         type: u1
         doc: It seem to be a oscillating value!
       - id: magic7
         contents: [0x00]
       - id: magic8
         contents: [0x00, 0x00]
-      - id: unknown19
+      - id: unknown16
         type: u2
         doc: It seem to be a oscillating value!
       - id: magic9
         contents: [0x00, 0x00]
-      - id: unknown20
+      - id: unknown17
         type: u2
         doc: It seem to be a oscillating value!
       - id: magic10
         contents: [0x00, 0x00]
-      - id: unknown21
+      - id: unknown18
         type: u2
         doc: It seem to be a oscillating value!
       - id: magic11
         contents: [0x00, 0x00]
-      - id: unknown22
+      - id: unknown19
         type: u2
         doc: It seem to be a oscillating value!
       - id: magic12
         contents: [0x00, 0x00]
-      - id: unknown23
+      - id: unknown20
         type: u2
         doc: It seem to be a oscillating value!
       - id: magic13
         contents: [0x00, 0x00, 0x00, 0x00]
+  unknown_answer_type2:
+    seq:
+      - id: time_delta_milliseconds
+        type: u4
+        doc: I suspect this field contains the number of milliseconds passed since something something  
+      - id: magic0
+        contents: [0x00, 0x00]
+      - id: question_id
+        type: u2
+        doc: The question being answered
+      - id: magic1
+        contents: [0x00, 0x00]
+      - id: magic2
+        contents: [0x00, 0x01]
+      - id: magic3
+        contents: [0x00, 0x00, 0x00, 0x00]
+
