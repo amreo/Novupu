@@ -42,6 +42,7 @@ types:
           switch-on: type
           cases:
             0x0002: dev_info
+            0x00B5: data_link_status_info3
             0x00DD: unknown_answer_type2
             0x00F0: unknown_answer_type3
             0x00F4: network_status_info
@@ -54,7 +55,7 @@ types:
             0x0151: unknown_answer_type1
             0x0152: unknown_answer_type5
             0x0175: unknown_answer_type0
-            0x0186:  data_link_status_info2
+            0x0186: data_link_status_info2
             0x0187: data_link_status_info
             _: unknown_type
         size: _parent.length-4
@@ -596,4 +597,23 @@ types:
         contents: [0x00, 0x00]
       - id: magic3
         contents: [0x00, 0x00, 0x00, 0x00]
-
+  data_link_status_info3:
+    seq:
+      - id: time_delta_milliseconds
+        type: u4
+        doc: I suspect this field contains the number of milliseconds passed since something something  
+      - id: magic0
+        contents: [0x00, 0x00]
+      - id: question_id
+        type: u2
+        doc: The question being answered
+      - id: unknown0
+        type: s4
+        doc: It seem to be a oscillating value!
+      - id: magic1
+        contents: [0x00, 0x00]
+      - id: unknown1
+        type: u2
+        doc: It seem to be a oscillating value!
+      - id: magic13
+        contents: [0x00, 0x00, 0x00, 0x00]
