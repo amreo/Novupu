@@ -43,6 +43,7 @@ types:
           cases:
             0x0002: dev_info
             0x00DD: unknown_answer_type2
+            0x00F0: unknown_answer_type3
             0x00F4: network_status_info
             0x010D: apn_info
             0x010F: data_link_connection_info 
@@ -51,7 +52,7 @@ types:
             0x014B: iccid_info
             0x0151: unknown_answer_type1
             0x0175: unknown_answer_type0
-            0x0186: data_link_status_info2
+            0x0186:  data_link_status_info2
             0x0187: data_link_status_info
             _: unknown_type
         size: _parent.length-4
@@ -541,4 +542,23 @@ types:
         contents: [0x00, 0x01]
       - id: magic3
         contents: [0x00, 0x00, 0x00, 0x00]
-
+  unknown_answer_type3:
+    seq:
+      - id: time_delta_milliseconds
+        type: u4
+        doc: I suspect this field contains the number of milliseconds passed since something something  
+      - id: magic0
+        contents: [0x00, 0x00]
+      - id: question_id
+        type: u2
+        doc: The question being answered
+      - id: magic1
+        contents: [0x00, 0x00]
+      - id: magic2
+        contents: [0x00, 0x03, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 
+          0x0F, 0x02, 0x02, 0x02, 0x03, 0x08, 0x00, 0x00, 0x00, 0x00, 0x08, 
+          0x02, 0x05, 0x00, 0x03, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 
+          0x02, 0x02, 0x02, 0x00, 0x03, 0x08, 0x0F, 0x00, 0xD3, 0x50, 0x02, 
+          0x00, 0xC6, 0x88, 0x3D, 0x5D]
+      - id: magic3
+        contents: [0x00, 0x00, 0x00, 0x00]
