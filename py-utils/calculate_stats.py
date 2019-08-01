@@ -70,7 +70,7 @@ for item in data:
         stats_answer_type = stats["stats_grouped_by_answer_type"][str(payload["type"])]
         stats_answer_type["count"]+=1
         if stats_answer_type["last_time_epoch"] != 0.0:
-            stats_answer_type["time_epoch_delta_sum"] += stats_answer_type["time_epoch_delta_sum"] + (item["time_epoch"] - stats_answer_type["last_time_epoch"])
+            stats_answer_type["time_epoch_delta_sum"] += (item["time_epoch"] - stats_answer_type["last_time_epoch"])
         stats_answer_type["last_time_epoch"] = item["time_epoch"]
 
 for qtype in stats["stats_grouped_by_question_type"]:
