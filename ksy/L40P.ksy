@@ -342,39 +342,50 @@ types:
       - id: unknown10
         type: u1
       - id: magic9
-        contents: [0x00, 0x00]
+        contents: [0x00]
       - id: unknown11
         type: u1
       - id: unknown12
         type: u1
-      - id: magic10
-        contents: [0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 
-          0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00]
       - id: unknown13
         type: u1
-      - id: magic11
+      - id: magic10
         contents: [0x00, 0x00]
       - id: unknown14
-        type: u2 
-      - id: magic12
-        contents: [0x00, 0x00]
+        type: u1
+      - id: magic11
+        contents: [0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00] 
       - id: unknown15
-        type: u2
-      - id: magic13
-        contents: [0x00, 0x00] 
+        type: u1
+      - id: magic12
+        contents: [0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00]
       - id: unknown16
-        type: u2
-      - id: magic14
-        contents: [0x00, 0x00] 
+        type: u1
       - id: unknown17
+        type: u1
+      - id: magic13
+        contents: [0x00, 0x00]
+      - id: unknown18
+        type: u2 
+      - id: magic14
+        contents: [0x00, 0x00]
+      - id: unknown19
         type: u2
       - id: magic15
         contents: [0x00, 0x00] 
-      - id: unknown18
-        type: u1
+      - id: unknown20
+        type: u2
       - id: magic16
-        contents: [0x00]
+        contents: [0x00, 0x00] 
+      - id: unknown21
+        type: u2
       - id: magic17
+        contents: [0x00, 0x00] 
+      - id: unknown22
+        type: u1
+      - id: magic18
+        contents: [0x00]
+      - id: magic19
         contents: [0x00, 0x00, 0x00, 0x00]
   unknown_answer_type1:
     seq:
