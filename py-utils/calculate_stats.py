@@ -7,8 +7,18 @@ else:
 if dest_dir.endswith("/"):
     dest_dir = dest_dir[:-1]
 
+def str_parsed_data(parsed_data):
+    if not "payload" in item["parsed_data"]:
+        return "NULL"
+    payload = item["parsed_data"]["payload"]
+    if "question" in payload:
+        return "Q" + str(payload["mysterious_magic"]) + "_" + str(payload["type"]) 
+    elif "answer" in payload: 
+        return "A" + str(payload["mysterious_magic"]) + "_" + str(payload["type"]) 
+
 data = json.load(sys.stdin)
 stats = {}
+prev = "START"
 stats["count"] = 0
 stats["count_frame_from_src_00"] = 0
 stats["count_frame_from_src_01"] = 0
@@ -21,7 +31,7 @@ stats["count_frame_question"] = 0
 stats["count_frame_answer"] = 0
 stats["stats_grouped_by_question_type"] = {}
 stats["stats_grouped_by_answer_type"] = {}
-
+stats["prev_types"] = {}
 
 for item in data:
     print ("ID:", item["id"], file=sys.stderr)
@@ -37,12 +47,20 @@ for item in data:
         stats["count_frame_null"] += 1
         continue
     payload = item["parsed_data"]["payload"]
+
     if payload["mysterious_magic"] == 32776:
         stats["count_frame_mysterious_magic_0x8008"] += 1
     if payload["mysterious_magic"] == 0:
         stats["count_frame_mysterious_magic_0x0000"] += 1
-    
-    
+     
+    if not str_parsed_data(item["parsed_data"]) in stats["prev_types"]:
+        stats["prev_types"][str_parsed_data(item["parsed_data"])] = {}
+    if not prev in stats["prev_types"][str_parsed_data(item["parsed_data"])]:
+        stats["prev_types"][str_parsed_data(item["parsed_data"])][prev] = 0     
+    stats["prev_types"][str_parsed_data(item["parsed_data"])][prev] += 1
+
+    prev = str_parsed_data(item["parsed_data"])
+
     if "question" in payload:
         stats["count_frame_question"] += 1
         if not str(payload["type"]) in stats["stats_grouped_by_question_type"]:
