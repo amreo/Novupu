@@ -22,8 +22,13 @@ def filter_llc_info_by_ids($ids):
     else
         .
     end;
+def filter_llc_info_by_answer:
+    map(select(.parsed_data | has("payload")) | select(.parsed_data.payload | has("answer")));
+def filter_llc_info_by_question:
+    map(select(.parsed_data | has("payload")) | select(.parsed_data.payload | has("question")));
 def filter_llc_info_by_unknown_answer_type:
     map(select(.parsed_data | has("payload")) | select(.parsed_data.payload | has("answer")) | select(.parsed_data.payload.answer.kstype=="UnknownType"));
+
 def filter_no_erroneous_llc_info:
     map(select(.parsed_data | type == "object"));
 def filter_erroneous_llc_info:
