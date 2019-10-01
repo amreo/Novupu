@@ -1,11 +1,5 @@
 #!/usr/bin/env python3
 import json, sys, io
-if len(sys.argv) > 1:
-    dest_dir = sys.argv[1]
-else:
-    dest_dir = "." 
-if dest_dir.endswith("/"):
-    dest_dir = dest_dir[:-1]
 
 def str_parsed_data(parsed_data):
     if not "payload" in item["parsed_data"]:
