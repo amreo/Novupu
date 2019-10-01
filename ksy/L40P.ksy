@@ -73,7 +73,7 @@ types:
         contents: [0x00, 0x00]
       - id: question_id
         type: u2
-        doc: The id of the questions
+        doc: The id of the questions. It seems to be incremental
   iccid_info:
     seq:
       - id: time_delta_milliseconds
@@ -84,7 +84,7 @@ types:
         doc: I suspect this magic0 and unknown1 is a u4 number
       - id: question_id
         type: u2
-        doc: The question being answered
+        doc: The question being answered. It's incremental and is associated with the question.question_id
       - id: iccid
         type: str
         size: 21
