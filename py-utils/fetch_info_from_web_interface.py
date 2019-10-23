@@ -68,13 +68,13 @@ def login(s: requests.session, username: str, password: str):
         print("Failed to login (userlevel)", file=sys.stderr)
         exit(1)
     s.cookies.set("userlevel", "2")
-    
+        
 def status_wan_info(s: requests.session):
     # Radio info
     # WMX info aren't parsed!
     r = get_sysconf_with_sid_header(s, "ajax.asp", "status_wanInfo", {})
     if r.status_code != 200:
-        print("Failed wan info", file=sys.stderrs)
+        print("Failed wan info", file=sys.stderr)
         return {}
     dat = r.text.split(";")
     general = dat[0].split("\t")
@@ -268,66 +268,71 @@ def get_pdn_info(s: requests.session):
         print("Failed pdn info", file=sys.stderr)
         return {}
     dat = r.text.split("\t")
-    default_pdn = dat[1].split(";")
-    
-    info = {}  
-    info["raw"] = {
-        "text": r.text,
-        "splitted": dat,
-    }
-    info["default_apn_ipmode"] = default_pdn[4].split(",")[0]
-    if info["default_apn_ipmode"] == "0":
-        info["default_apn_ipmode_text"] = "none"
-    elif info["default_apn_ipmode"] == "1":
-        info["default_apn_ipmode_text"] = "ipv4"
-    elif info["default_apn_ipmode"] == "2":
-        info["default_apn_ipmode_text"] = "ipv6"
-    elif info["default_apn_ipmode"] == "3":
-        info["default_apn_ipmode_text"] = "ipv4+ipv6"
-    info["default_apn_name"] = default_pdn[4].split(",")[1]
-    info["default_apn_ipaddr4"] = default_pdn[4].split(",")[2]
-    info["default_apn_ipaddr6"] = default_pdn[4].split(",")[3]
-    info["default_pdn_type"] = default_pdn[0]
-    if info["default_pdn_type"] == "0":
-        info["default_pdn_type_text"] = "none"
-    elif info["default_pdn_type"] == "1":
-        info["default_pdn_type_text"] = "ipv4"
-    elif info["default_pdn_type"] == "2":
-        info["default_pdn_type_text"] = "ipv6"
-    elif info["default_pdn_type"] == "3":
-        info["default_pdn_type_text"] = "ipv4+ipv6"
-    info["default_pdn_auth_type"] = default_pdn[2]
-    info["default_pdn_auth_type_text"] = AUTH_TYPE[default_pdn[2]]
-    info["default_pdn_connected"] = default_pdn[3]
-    
-    info["apn_name"] = default_pdn[4].split(",")[1]
-    info["pdn_numbers"] = int(dat[2])
-    list_pdn = dat[3].split(";")
-    list_rule = dat[4].split(";")
-    list_auth = dat[5].split(";")
-    list_connect = dat[6].split(";")
-    info["pdns"] = []
-    for i in range(info["pdn_numbers"]):
-        apn = {
-            "apn_name": list_pdn[i].split(",")[1],
-            "apn_ipv4": list_pdn[i].split(",")[2],
-            "apn_ipv6": list_pdn[i].split(",")[3],
-            "pdn_type": list_rule[i].split(",")[1],
-            "auth_type": list_auth[i].split(",")[1],  
-            "connected": list_connect[i]
+    try:
+        default_pdn = dat[1].split(";")
+
+        info = {}  
+        info["raw"] = {
+            "text": r.text,
+            "splitted": dat,
         }
-        apn["auth_type_text"] = AUTH_TYPE[apn["auth_type"]]
-        if apn["pdn_type"] == "0":
-            apn["pdn_type_text"] = "none"
-        elif apn["pdn_type"] == "1":
-            apn["pdn_type_text"] = "ipv4"
-        elif apn["pdn_type"] == "2":
-            apn["pdn_type_text"] = "ipv6"
-        elif apn["pdn_type"] == "3":
-            apn["pdn_type_text"] = "ipv4+ipv6"
-        apn["pdns"].append(apn)
-
-
+        info["default_apn_ipmode"] = default_pdn[4].split(",")[0]
+        if info["default_apn_ipmode"] == "0":
+            info["default_apn_ipmode_text"] = "none"
+        elif info["default_apn_ipmode"] == "1":
+            info["default_apn_ipmode_text"] = "ipv4"
+        elif info["default_apn_ipmode"] == "2":
+            info["default_apn_ipmode_text"] = "ipv6"
+        elif info["default_apn_ipmode"] == "3":
+            info["default_apn_ipmode_text"] = "ipv4+ipv6"
+        info["default_apn_name"] = default_pdn[4].split(",")[1]
+        info["default_apn_ipaddr4"] = default_pdn[4].split(",")[2]
+        info["default_apn_ipaddr6"] = default_pdn[4].split(",")[3]
+        info["default_pdn_type"] = default_pdn[0]
+        if info["default_pdn_type"] == "0":
+            info["default_pdn_type_text"] = "none"
+        elif info["default_pdn_type"] == "1":
+            info["default_pdn_type_text"] = "ipv4"
+        elif info["default_pdn_type"] == "2":
+            info["default_pdn_type_text"] = "ipv6"
+        elif info["default_pdn_type"] == "3":
+            info["default_pdn_type_text"] = "ipv4+ipv6"
+        info["default_pdn_auth_type"] = default_pdn[2]
+        info["default_pdn_auth_type_text"] = AUTH_TYPE[default_pdn[2]]
+        info["default_pdn_connected"] = default_pdn[3]
+        
+        info["apn_name"] = default_pdn[4].split(",")[1]
+        info["pdn_numbers"] = int(dat[2])
+        list_pdn = dat[3].split(";")
+        list_rule = dat[4].split(";")
+        list_auth = dat[5].split(";")
+        list_connect = dat[6].split(";")
+        info["pdns"] = []
+        for i in range(info["pdn_numbers"]):
+            apn = {
+                "apn_name": list_pdn[i].split(",")[1],
+                "apn_ipv4": list_pdn[i].split(",")[2],
+                "apn_ipv6": list_pdn[i].split(",")[3],
+                "pdn_type": list_rule[i].split(",")[1],
+                "auth_type": list_auth[i].split(",")[1],  
+                "connected": list_connect[i]
+            }
+            apn["auth_type_text"] = AUTH_TYPE[apn["auth_type"]]
+            if apn["pdn_type"] == "0":
+                apn["pdn_type_text"] = "none"
+            elif apn["pdn_type"] == "1":
+                apn["pdn_type_text"] = "ipv4"
+            elif apn["pdn_type"] == "2":
+                apn["pdn_type_text"] = "ipv6"
+            elif apn["pdn_type"] == "3":
+                apn["pdn_type_text"] = "ipv4+ipv6"
+            apn["pdns"].append(apn)
+    except:
+        info = {}  
+        info["raw"] = {
+            "text": r.text,
+            "splitted": dat,
+        }
     #dat = r.text.split("\t")
     
     return info
@@ -353,6 +358,5 @@ while True:
     info["pdn_info"] = get_pdn_info(s)
     info["chip"] = get_chip(s)
     json.dump(info, sys.stdout)
-    break
 print("")
 exit(0)
